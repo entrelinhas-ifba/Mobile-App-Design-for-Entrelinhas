@@ -9,7 +9,7 @@ export function QuickAnalysisHub({ onScan }: QuickAnalysisHubProps) {
     <div className="flex-1 w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-8">
       <div className="mb-6">
         <h2 className="font-serif text-[22px] sm:text-[26px] font-bold text-[#1F2421]">Análise Rápida</h2>
-        <p className="text-[13px] text-[#9CA3AF] mt-1">OCR imediato, intenção e síntese preliminar em segundos</p>
+        <p className="text-[13px] text-[#9CA3AF] mt-1">Leitura imediata, intenção e síntese preliminar em segundos</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">

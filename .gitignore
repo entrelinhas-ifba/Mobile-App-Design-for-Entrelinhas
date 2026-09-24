@@ -18,3 +18,9 @@ logs/
 # beside it.
 /.plugins/
 /.opencode-skills/
+
+# Java / Spring Boot build artifacts
+api/target/
+api/.idea/
+api/uploads/
+api/processed/

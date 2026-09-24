@@ -13,7 +13,7 @@ export class AppError extends Error {
   }
 }
 
-const BASE_URL = (import.meta as unknown as { env?: { VITE_API_BASE_URL?: string } }).env?.VITE_API_BASE_URL || "/api/v1";
+const BASE_URL = (import.meta as unknown as { env?: { VITE_API_BASE_URL?: string } }).env?.VITE_API_BASE_URL || "";
 
 export async function apiClient<T>(endpoint: string, config: RequestConfig = {}): Promise<T> {
   const { params, headers, ...customConfig } = config;
@@ -28,7 +28,12 @@ export async function apiClient<T>(endpoint: string, config: RequestConfig = {})
 
   const token = typeof window !== "undefined" ? localStorage.getItem("@entrelinhas:token") : null;
   const requestHeaders = new Headers(headers);
-  requestHeaders.set("Content-Type", "application/json");
+
+  // If body is NOT FormData, default to application/json
+  if (!(customConfig.body instanceof FormData) && !requestHeaders.has("Content-Type")) {
+    requestHeaders.set("Content-Type", "application/json");
+  }
+
   if (token) {
     requestHeaders.set("Authorization", `Bearer ${token}`);
   }
@@ -43,17 +48,24 @@ export async function apiClient<T>(endpoint: string, config: RequestConfig = {})
       if (response.status === 401 && typeof window !== "undefined") {
         window.dispatchEvent(new CustomEvent("unauthorized"));
       }
-      const errorBody = await response.json().catch(() => ({}));
-      throw new AppError(
-        errorBody.message || `Erro na requisição HTTP: ${response.status}`,
-        response.status,
-        errorBody
-      );
+      const errorText = await response.text().catch(() => "");
+      let errorMessage = `Erro HTTP ${response.status}`;
+      try {
+        const errorJson = JSON.parse(errorText);
+        if (errorJson.message) errorMessage = errorJson.message;
+      } catch {
+        if (errorText) errorMessage = errorText;
+      }
+      throw new AppError(errorMessage, response.status);
     }
 
-    return (await response.json()) as T;
+    const contentType = response.headers.get("content-type");
+    if (contentType && contentType.includes("application/json")) {
+      return (await response.json()) as T;
+    }
+    return (await response.text()) as unknown as T;
   } catch (error) {
     if (error instanceof AppError) throw error;
-    throw new AppError("Falha na conexão com o servidor", 500, error);
+    throw new AppError("Falha na conexão com o servidor da API (porta 8002)", 500, error);
   }
 }

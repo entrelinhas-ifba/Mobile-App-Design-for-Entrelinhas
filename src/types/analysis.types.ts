@@ -35,7 +35,7 @@ export interface AnalysisResult {
   extractedText: string;
   wordCount: number;
   charCount: number;
-  ocrAccuracy: string;
+  ocrAccuracy?: string;
   intents: string[];
   summaryPoints: string[];
   toneMetrics: ToneMetric[];
@@ -44,6 +44,14 @@ export interface AnalysisResult {
     text: string;
     idiomNote: string;
   };
+}
+
+export interface InterpretationResponseDTO {
+  resumo?: string;
+  tema?: string;
+  intencaoAutor?: string;
+  ideiasPrincipais?: string[];
+  texto?: string;
 }
 
 export interface AnalysisPayload {

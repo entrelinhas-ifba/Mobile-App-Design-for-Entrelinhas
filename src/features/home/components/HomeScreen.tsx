@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import type { AnalysisMode } from "@/types/analysis.types";
-import { recentSnippets, historyItems, dailyQuote } from "@/services/api/mockData";
+import { recentSnippets, historyItems } from "@/services/api/mockData";
 
 interface HomeScreenProps {
   mode: AnalysisMode;
@@ -81,7 +81,7 @@ export function HomeScreen({
                 <div>
                   <p className="text-[13px] font-semibold text-[#1F2421]">Análise Rápida</p>
                   <p className="text-[12px] text-[#6B7280] mt-1 leading-relaxed">
-                    OCR direto, tema central, intenção preliminar e resumo conciso em segundos.
+                    Leitura direta, tema central, intenção preliminar e resumo conciso em segundos.
                   </p>
                 </div>
               ) : (
@@ -199,31 +199,11 @@ export function HomeScreen({
             </div>
           </div>
 
-          {/* Daily Quote Card */}
-          <div className="bg-[#F3F2EE] rounded-2xl p-5 border border-[#E5E7EB] relative overflow-hidden">
-            <div className="absolute top-2 right-4 font-serif text-[72px] text-black/5 select-none leading-none">
-              “
-            </div>
-            <p className="text-[10px] font-semibold text-[#9CA3AF] uppercase tracking-widest mb-2">
-              Citação do Dia
-            </p>
-            <p className="font-serif italic text-[15px] sm:text-[16px] text-[#1F2421] leading-relaxed relative z-10">
-              "{dailyQuote.quote}"
-            </p>
-            <p className="text-[12px] text-[#6B7280] mt-2.5 font-medium relative z-10">
-              — {dailyQuote.author}
-            </p>
-          </div>
-
           {/* Extra reading insights card for desktop */}
-          <div className="hidden sm:grid grid-cols-3 gap-3 bg-white rounded-2xl border border-[#E5E7EB] p-4">
-            <div className="text-center p-2 border-r border-[#F0EFE9] last:border-0">
+          <div className="hidden sm:grid grid-cols-2 gap-3 bg-white rounded-2xl border border-[#E5E7EB] p-4">
+            <div className="text-center p-2 border-r border-[#F0EFE9]">
               <p className="text-[18px] font-bold text-[#1D4ED8]">14</p>
               <p className="text-[11px] text-[#6B7280]">Páginas este mês</p>
-            </div>
-            <div className="text-center p-2 border-r border-[#F0EFE9] last:border-0">
-              <p className="text-[18px] font-bold text-[#059669]">98.4%</p>
-              <p className="text-[11px] text-[#6B7280]">Precisão de OCR</p>
             </div>
             <div className="text-center p-2">
               <p className="text-[18px] font-bold text-[#D97736]">3</p>
