@@ -1,0 +1,10 @@
+{
+  "description": "AI-powered mobile app for scanning, analyzing, and interpreting literary texts with fast OCR, deep semantic insights, and contextual annotations.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
