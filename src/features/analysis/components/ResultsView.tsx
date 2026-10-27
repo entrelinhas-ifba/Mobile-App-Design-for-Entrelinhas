@@ -377,6 +377,48 @@ export function ResultsView({ mode, onBack, imageSrc }: ResultsViewProps) {
                 ))}
               </div>
 
+              {/* Figuras de Linguagem (Análise Profunda) */}
+              {analysis.figurasDeLinguagem && analysis.figurasDeLinguagem.length > 0 && (
+                <div className="bg-white rounded-2xl border border-[#E5E7EB] shadow-sm p-5">
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="text-base">🎭</span>
+                    <p className="text-[11px] font-semibold text-[#9CA3AF] uppercase tracking-widest">
+                      Figuras de Linguagem Detectadas
+                    </p>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {analysis.figurasDeLinguagem.map((fig, idx) => (
+                      <span
+                        key={idx}
+                        className="px-3 py-1.5 rounded-xl text-[12px] font-medium bg-purple-50 text-purple-700 border border-purple-200/80"
+                      >
+                        {fig}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Referências Históricas (Análise Profunda) */}
+              {analysis.referenciasHistoricas && analysis.referenciasHistoricas.length > 0 && (
+                <div className="bg-white rounded-2xl border border-[#E5E7EB] shadow-sm p-5">
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="text-base">🏛️</span>
+                    <p className="text-[11px] font-semibold text-[#9CA3AF] uppercase tracking-widest">
+                      Referências & Alusões Históricas
+                    </p>
+                  </div>
+                  <ul className="space-y-2">
+                    {analysis.referenciasHistoricas.map((ref, idx) => (
+                      <li key={idx} className="text-[13px] text-[#374151] flex items-start gap-2">
+                        <span className="text-[#1D4ED8] mt-1 font-bold">•</span>
+                        <span>{ref}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
               {/* Translation Toggle Card */}
               {analysis.translation && (
                 <div className="bg-white rounded-2xl border border-[#E5E7EB] shadow-sm p-5">

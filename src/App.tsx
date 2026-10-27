@@ -11,13 +11,16 @@ import {
   DeepAnalysisHub,
 } from "@/features/analysis";
 import { HistoryList } from "@/features/history";
+import { AuthProvider, useAuth, LoginScreen } from "@/features/auth";
 
-export default function App() {
+function AppContent() {
+  const { isAuthenticated, isLoading } = useAuth();
   const [navTab, setNavTab] = useState<NavTab>("home");
   const [screen, setScreen] = useState<Screen>("home");
   const [mode, setMode] = useState<AnalysisMode>("rapida");
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [cropOrigin, setCropOrigin] = useState<"camera" | "home">("home");
+  const [hasDismissedInitialLogin, setHasDismissedInitialLogin] = useState(false);
 
   const handleNavChange = (tab: NavTab) => {
     setNavTab(tab);
@@ -41,6 +44,36 @@ export default function App() {
     setScreen("crop");
   };
 
+  // If user opens the app not authenticated and has not chosen to dismiss, show LoginScreen
+  const shouldShowLogin = (!isAuthenticated && !hasDismissedInitialLogin) || screen === "login";
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen w-full bg-[#FBFBFA] flex flex-col items-center justify-center p-4">
+        <div className="w-16 h-16 rounded-2xl bg-white p-2 border border-gray-200 shadow-sm flex items-center justify-center mb-4">
+          <img src="/logo.jpg" alt="EntreLinhas" className="w-full h-full object-contain" />
+        </div>
+        <div className="w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
+        <p className="text-xs text-gray-500 mt-3 font-medium">Carregando EntreLinhas...</p>
+      </div>
+    );
+  }
+
+  if (shouldShowLogin) {
+    return (
+      <LoginScreen
+        onSuccess={() => {
+          setHasDismissedInitialLogin(true);
+          setScreen("home");
+        }}
+        onSkip={() => {
+          setHasDismissedInitialLogin(true);
+          setScreen("home");
+        }}
+      />
+    );
+  }
+
   const showNav = screen !== "camera" && screen !== "crop";
 
   return (
@@ -48,9 +81,13 @@ export default function App() {
       className="min-h-screen w-full bg-[#FBFBFA] flex flex-col text-[#1F2421]"
       style={{ fontFamily: "Inter, system-ui, sans-serif" }}
     >
-      {/* Top Header */}
+      {/* Top Header with Uploaded Logo and Auth controls */}
       {showNav && (
-        <AppHeader activeTab={navTab} onChangeTab={handleNavChange} />
+        <AppHeader
+          activeTab={navTab}
+          onChangeTab={handleNavChange}
+          onOpenLogin={() => setScreen("login")}
+        />
       )}
 
       {/* Main Content Area */}
@@ -118,5 +155,13 @@ export default function App() {
       {/* Bottom Navigation for Mobile */}
       {showNav && <BottomNav active={navTab} onChange={handleNavChange} />}
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
   );
 }

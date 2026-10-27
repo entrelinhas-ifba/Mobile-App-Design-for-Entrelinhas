@@ -1,4 +1,4 @@
-export type AnalysisMode = "rapida" | "aprofundada";
+export type AnalysisMode = "rapida" | "aprofundada" | "simples" | "profunda";
 
 export type ResultTab = "digitalizado" | "interpretacao";
 
@@ -44,14 +44,42 @@ export interface AnalysisResult {
     text: string;
     idiomNote: string;
   };
+  // Campos da Análise Profunda (/api/analysis/profunda)
+  idiomaOriginal?: string;
+  traducao?: string;
+  contextoHistorico?: string;
+  referenciasHistoricas?: string[];
+  figurasDeLinguagem?: string[];
+  analiseGeral?: string;
 }
 
+/**
+ * Resposta da Análise Simples do backend (/api/analysis)
+ */
 export interface InterpretationResponseDTO {
   resumo?: string;
   tema?: string;
   intencaoAutor?: string;
   ideiasPrincipais?: string[];
+  textoOriginal?: string;
   texto?: string;
+}
+
+/**
+ * Resposta da Análise Profunda do backend (/api/analysis/profunda)
+ */
+export interface DeepInterpretationResponseDTO {
+  idiomaOriginal?: string;
+  traducao?: string;
+  resumo?: string;
+  temaPrincipal?: string;
+  intencaoAutor?: string;
+  ideiasPrincipais?: string[];
+  contextoHistorico?: string;
+  referenciasHistoricas?: string[];
+  figurasDeLinguagem?: string[];
+  analiseGeral?: string;
+  textoOriginal?: string;
 }
 
 export interface AnalysisPayload {

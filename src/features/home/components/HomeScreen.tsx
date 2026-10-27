@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import type { AnalysisMode } from "@/types/analysis.types";
 import { recentSnippets, historyItems } from "@/services/api/mockData";
+import { useAuth } from "@/features/auth";
 
 interface HomeScreenProps {
   mode: AnalysisMode;
@@ -19,6 +20,7 @@ export function HomeScreen({
   onSnippetClick,
   onViewAllHistory,
 }: HomeScreenProps) {
+  const { user } = useAuth();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isDragging, setIsDragging] = useState(false);
 
@@ -48,6 +50,23 @@ export function HomeScreen({
 
   return (
     <div className="flex-1 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-8">
+      {/* Brand Greeting Banner */}
+      <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 bg-white border border-[#E5E7EB] rounded-2xl p-4 sm:p-5 shadow-xs">
+        <div className="flex items-center gap-3.5">
+          <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100 flex items-center justify-center p-1 flex-shrink-0 shadow-xs">
+            <img src="/logo.jpg" alt="EntreLinhas" className="w-full h-full object-contain rounded-lg" />
+          </div>
+          <div>
+            <h2 className="font-serif text-lg sm:text-xl font-bold text-[#1F2421]">
+              {user && user.provider !== "guest" ? `Olá, ${user.name.split(" ")[0]}!` : "Bem-vindo ao EntreLinhas"}
+            </h2>
+            <p className="text-xs sm:text-sm text-[#6B7280]">
+              Mais que palavras, significados. Analise e interprete textos literários com inteligência contextual.
+            </p>
+          </div>
+        </div>
+      </div>
+
       {/* Responsive 2-Column Grid on Tablet/Desktop */}
       <div className="grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-8 items-start">
         {/* Left Column: Mode Selector & Capture Zone */}

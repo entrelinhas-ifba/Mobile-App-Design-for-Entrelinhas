@@ -26,7 +26,10 @@ export async function apiClient<T>(endpoint: string, config: RequestConfig = {})
     url += `?${query}`;
   }
 
-  const token = typeof window !== "undefined" ? localStorage.getItem("@entrelinhas:token") : null;
+  const token =
+    typeof window !== "undefined"
+      ? localStorage.getItem("@entrelinhas:token") || sessionStorage.getItem("@entrelinhas:token")
+      : null;
   const requestHeaders = new Headers(headers);
 
   // If body is NOT FormData, default to application/json
@@ -35,14 +38,29 @@ export async function apiClient<T>(endpoint: string, config: RequestConfig = {})
   }
 
   if (token) {
-    requestHeaders.set("Authorization", `Bearer ${token}`);
+    const cleanToken = token.startsWith("Bearer ") ? token.slice(7) : token;
+    requestHeaders.set("Authorization", `Bearer ${cleanToken}`);
   }
 
   try {
-    const response = await fetch(url, {
-      ...customConfig,
-      headers: requestHeaders,
-    });
+    let response: Response;
+    try {
+      response = await fetch(url, {
+        ...customConfig,
+        headers: requestHeaders,
+      });
+    } catch (networkError) {
+      // If relative URL failed and BASE_URL was empty, attempt direct localhost:8002 connection
+      if (!BASE_URL && url.startsWith("/")) {
+        const directUrl = `http://localhost:8002${url}`;
+        response = await fetch(directUrl, {
+          ...customConfig,
+          headers: requestHeaders,
+        });
+      } else {
+        throw networkError;
+      }
+    }
 
     if (!response.ok) {
       if (response.status === 401 && typeof window !== "undefined") {
@@ -52,7 +70,10 @@ export async function apiClient<T>(endpoint: string, config: RequestConfig = {})
       let errorMessage = `Erro HTTP ${response.status}`;
       try {
         const errorJson = JSON.parse(errorText);
-        if (errorJson.message) errorMessage = errorJson.message;
+        if (errorJson.erro) errorMessage = errorJson.erro;
+        else if (errorJson.mensagem) errorMessage = errorJson.mensagem;
+        else if (errorJson.message) errorMessage = errorJson.message;
+        else if (errorJson.error) errorMessage = errorJson.error;
       } catch {
         if (errorText) errorMessage = errorText;
       }
@@ -66,6 +87,7 @@ export async function apiClient<T>(endpoint: string, config: RequestConfig = {})
     return (await response.text()) as unknown as T;
   } catch (error) {
     if (error instanceof AppError) throw error;
-    throw new AppError("Falha na conexão com o servidor da API (porta 8002)", 500, error);
+    const msg = error instanceof Error ? error.message : "Falha na conexão com o servidor da API (porta 8002)";
+    throw new AppError(msg, 500, error);
   }
 }

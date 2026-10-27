@@ -1,5 +1,10 @@
 {
-  "description": "AI-powered mobile app for scanning, analyzing, and interpreting literary texts with fast OCR, deep semantic insights, and contextual annotations.",
+  "title": "EntreLinhas",
+  "description": "EntreLinhas - Mais que palavras, significados. Plataforma inteligente de leitura e análise de textos literários.",
+  "language": "pt-BR",
+  "icons": {
+    "icon": "/logo.jpg"
+  },
   "robots": {
     "index": false
   },
