@@ -1,0 +1,15 @@
+{
+  "title": "EntreLinhas",
+  "description": "EntreLinhas - Mais que palavras, significados. Plataforma inteligente de leitura e análise de textos literários.",
+  "language": "pt-BR",
+  "icons": {
+    "icon": "/logo.jpg"
+  },
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
