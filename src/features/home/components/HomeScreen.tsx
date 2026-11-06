@@ -1,6 +1,11 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import type { AnalysisMode } from "@/types/analysis.types";
-import { recentSnippets, historyItems } from "@/services/api/mockData";
+import {
+  historyService,
+  type RecentSnippetItem,
+  type HistoryStats,
+} from "@/features/history/services/historyService";
+import { recentSnippets as mockSnippets } from "@/services/api/mockData";
 import { useAuth } from "@/features/auth";
 
 interface HomeScreenProps {
@@ -20,9 +25,52 @@ export function HomeScreen({
   onSnippetClick,
   onViewAllHistory,
 }: HomeScreenProps) {
-  const { user } = useAuth();
+  const { user, isAuthenticated } = useAuth();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isDragging, setIsDragging] = useState(false);
+
+  const [snippets, setSnippets] = useState<RecentSnippetItem[]>([]);
+  const [stats, setStats] = useState<HistoryStats>({ paginasEsteMes: 0, palavrasAnalisadas: 0 });
+  const [totalCount, setTotalCount] = useState<number>(0);
+  const [isLoadingData, setIsLoadingData] = useState<boolean>(true);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    async function loadDashboardData() {
+      setIsLoadingData(true);
+      try {
+        const [recentData, statsData, count] = await Promise.all([
+          historyService.getRecentSnippets(3),
+          historyService.getStats(),
+          historyService.getTotalCount(),
+        ]);
+
+        if (!isMounted) return;
+
+        if (recentData && recentData.length > 0) {
+          setSnippets(recentData);
+        } else if (!isAuthenticated) {
+          setSnippets(mockSnippets);
+        } else {
+          setSnippets([]);
+        }
+
+        setStats(statsData);
+        setTotalCount(count);
+      } catch (err) {
+        console.error("Erro ao carregar dados do dashboard:", err);
+      } finally {
+        if (isMounted) setIsLoadingData(false);
+      }
+    }
+
+    loadDashboardData();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [isAuthenticated]);
 
   const processFile = (file?: File) => {
     if (!file || !file.type.startsWith("image/")) return;
@@ -178,55 +226,81 @@ export function HomeScreen({
                 onClick={onViewAllHistory}
                 className="text-[12px] text-[#1D4ED8] hover:underline font-medium cursor-pointer"
               >
-                Ver todos ({historyItems.length})
+                Ver todos ({totalCount > 0 ? totalCount : snippets.length})
               </button>
             </div>
 
             {/* Responsive Card Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
-              {recentSnippets.map((s) => (
-                <button
-                  key={s.id}
-                  onClick={onSnippetClick}
-                  className="bg-white rounded-2xl border border-[#E5E7EB] hover:border-[#BFDBFE] hover:shadow-md transition-all shadow-sm overflow-hidden text-left active:scale-[0.98] flex flex-col cursor-pointer"
-                >
-                  <div
-                    className="h-[80px] w-full flex items-center justify-center p-3"
-                    style={{ background: s.bg || "#F3F2EE" }}
-                  >
-                    <div className="font-serif italic text-[11px] text-center leading-relaxed text-[#6B7280] line-clamp-3">
-                      "…{s.title}…"
-                    </div>
-                  </div>
-                  <div className="p-3.5 flex-1 flex flex-col justify-between">
+            {isLoadingData ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
+                {[1, 2, 3].map((i) => (
+                  <div key={i} className="bg-white rounded-2xl border border-[#E5E7EB] p-4 h-[160px] animate-pulse flex flex-col justify-between">
+                    <div className="h-14 bg-[#F3F2EE] rounded-xl" />
                     <div>
-                      <p className="text-[12px] font-semibold text-[#1F2421] truncate">{s.author}</p>
-                      <p className="text-[11px] text-[#6B7280] truncate mt-0.5">{s.title}</p>
-                    </div>
-                    <div className="mt-3 flex items-center justify-between">
-                      <span
-                        className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium"
-                        style={{ background: s.color, color: s.accent }}
-                      >
-                        {s.intent}
-                      </span>
-                      <span className="text-[10px] text-[#9CA3AF]">{s.words} palavras</span>
+                      <div className="h-3 bg-[#E5E7EB] rounded w-3/4 mb-2" />
+                      <div className="h-2.5 bg-[#E5E7EB] rounded w-1/2" />
                     </div>
                   </div>
-                </button>
-              ))}
-            </div>
+                ))}
+              </div>
+            ) : snippets.length === 0 ? (
+              <div className="bg-white rounded-2xl border border-dashed border-[#BFDBFE] p-6 text-center flex flex-col items-center justify-center gap-2">
+                <span className="text-2xl">📖</span>
+                <p className="text-[13px] font-semibold text-[#1F2421]">Nenhum trecho analisado ainda</p>
+                <p className="text-[11px] text-[#6B7280] max-w-xs leading-relaxed">
+                  Fotografe ou escolha uma imagem de livro ao lado para iniciar sua primeira análise.
+                </p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
+                {snippets.map((s) => (
+                  <button
+                    key={s.id}
+                    onClick={onSnippetClick}
+                    className="bg-white rounded-2xl border border-[#E5E7EB] hover:border-[#BFDBFE] hover:shadow-md transition-all shadow-sm overflow-hidden text-left active:scale-[0.98] flex flex-col cursor-pointer"
+                  >
+                    <div
+                      className="h-[80px] w-full flex items-center justify-center p-3"
+                      style={{ background: s.bg || "#F3F2EE" }}
+                    >
+                      <div className="font-serif italic text-[11px] text-center leading-relaxed text-[#6B7280] line-clamp-3">
+                        "…{s.title}…"
+                      </div>
+                    </div>
+                    <div className="p-3.5 flex-1 flex flex-col justify-between">
+                      <div>
+                        <p className="text-[12px] font-semibold text-[#1F2421] truncate">{s.author}</p>
+                        <p className="text-[11px] text-[#6B7280] truncate mt-0.5">{s.title}</p>
+                      </div>
+                      <div className="mt-3 flex items-center justify-between">
+                        <span
+                          className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium"
+                          style={{ background: s.color, color: s.accent }}
+                        >
+                          {s.intent}
+                        </span>
+                        <span className="text-[10px] text-[#9CA3AF]">{s.words} palavras</span>
+                      </div>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
 
-          {/* Extra reading insights card for desktop */}
-          <div className="hidden sm:grid grid-cols-2 gap-3 bg-white rounded-2xl border border-[#E5E7EB] p-4">
+          {/* Reading insights card */}
+          <div className="grid grid-cols-2 gap-3 bg-white rounded-2xl border border-[#E5E7EB] p-4 shadow-xs">
             <div className="text-center p-2 border-r border-[#F0EFE9]">
-              <p className="text-[18px] font-bold text-[#1D4ED8]">14</p>
+              <p className="text-[18px] sm:text-[20px] font-bold text-[#1D4ED8]">
+                {isLoadingData ? "..." : stats.paginasEsteMes}
+              </p>
               <p className="text-[11px] text-[#6B7280]">Páginas este mês</p>
             </div>
             <div className="text-center p-2">
-              <p className="text-[18px] font-bold text-[#D97736]">3</p>
-              <p className="text-[11px] text-[#6B7280]">Autores explorados</p>
+              <p className="text-[18px] sm:text-[20px] font-bold text-[#D97736]">
+                {isLoadingData ? "..." : stats.palavrasAnalisadas.toLocaleString("pt-BR")}
+              </p>
+              <p className="text-[11px] text-[#6B7280]">Palavras analisadas</p>
             </div>
           </div>
         </div>

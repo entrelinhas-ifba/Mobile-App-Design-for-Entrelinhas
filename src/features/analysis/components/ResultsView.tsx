@@ -261,21 +261,10 @@ export function ResultsView({ mode, onBack, imageSrc }: ResultsViewProps) {
                 ))}
               </div>
 
-              {/* Quick Actions */}
-              <div className="flex flex-col sm:flex-row gap-2 mt-1">
-                {[
-                  { icon: "📤", label: "Compartilhar" },
-                  { icon: "📄", label: "Exportar PDF" },
-                  { icon: "🔖", label: "Salvar no Histórico" },
-                ].map((action) => (
-                  <button
-                    key={action.label}
-                    className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl border border-[#E5E7EB] bg-white hover:bg-[#F3F2EE] text-[13px] font-medium text-[#1F2421] transition-colors shadow-sm cursor-pointer"
-                  >
-                    <span>{action.icon}</span>
-                    <span>{action.label}</span>
-                  </button>
-                ))}
+              {/* Auto-saved status indicator */}
+              <div className="flex items-center justify-center gap-2 py-3 px-4 bg-[#ECFDF5] border border-[#A7F3D0]/70 rounded-xl text-[12px] font-medium text-[#059669] shadow-xs">
+                <span className="text-[14px]">✓</span>
+                <span>Análise salva automaticamente no Histórico</span>
               </div>
             </div>
 

@@ -8,7 +8,7 @@ export function DeepAnalysisHub({ onScan }: DeepAnalysisHubProps) {
       <div className="mb-6">
         <h2 className="font-serif text-[22px] sm:text-[26px] font-bold text-[#1F2421]">Análise Aprofundada</h2>
         <p className="text-[13px] text-[#9CA3AF] mt-1">
-          Detecção semântica completa, contexto histórico, figuras de linguagem e tradução anotada
+          Detecção semântica completa, contexto histórico, figuras de linguagem e tradução
         </p>
       </div>
 
@@ -39,11 +39,31 @@ export function DeepAnalysisHub({ onScan }: DeepAnalysisHubProps) {
               Recursos Avançados Incluídos
             </p>
             {[
-              { icon: "🎯", label: "Intenção autoral com score de confiança", desc: "Mapeia humor, melancolia, crítica e cinismo" },
-              { icon: "📜", label: "Notas históricas contextuais", desc: "Período sociopolítico e contexto de publicação" },
-              { icon: "🌿", label: "Figuras de linguagem identificadas", desc: "Metáforas, ironias estruturais e antíteses" },
-              { icon: "🌐", label: "Tradução anotada PT ⇄ EN", desc: "Preservação de expressões idiomáticas de época" },
-              { icon: "📚", label: "Paralelos temáticos e intertextuais", desc: "Conexões com outras obras canônicas" },
+              {
+                icon: "🎯",
+                label: "Tema central e intenção autoral",
+                desc: "Mapeamento semântico do propósito e tom do autor no trecho",
+              },
+              {
+                icon: "📜",
+                label: "Contexto e referências históricas",
+                desc: "Identificação de acontecimentos, períodos, personagens e relações contextuais",
+              },
+              {
+                icon: "🌿",
+                label: "Figuras de linguagem contextualizadas",
+                desc: "Detecção do tipo, indicação do trecho e explicação do significado",
+              },
+              {
+                icon: "🌐",
+                label: "Detecção de idioma e tradução para português",
+                desc: "Tradução integral de obras estrangeiras preservando o estilo original",
+              },
+              {
+                icon: "🔍",
+                label: "Análise crítica geral e construção textual",
+                desc: "Avaliação profunda de linguagem, ideias, estrutura e possíveis significados",
+              },
             ].map((f) => (
               <div key={f.label} className="py-2.5 border-b border-[#F0EFE9] last:border-0">
                 <div className="flex items-center gap-2.5">

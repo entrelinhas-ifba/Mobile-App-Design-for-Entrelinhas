@@ -135,7 +135,13 @@ function AppContent() {
               />
             )}
             {navTab === "rapida" && (
-              <QuickAnalysisHub onScan={() => setScreen("camera")} />
+              <QuickAnalysisHub
+                onScan={() => {
+                  setMode("rapida");
+                  setScreen("camera");
+                }}
+                onItemClick={() => setScreen("results")}
+              />
             )}
             {navTab === "aprofundada" && (
               <DeepAnalysisHub
