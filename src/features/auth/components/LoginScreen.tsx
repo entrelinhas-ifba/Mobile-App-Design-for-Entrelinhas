@@ -69,11 +69,11 @@ export function LoginScreen({ onSuccess, onSkip }: LoginScreenProps) {
       <div className="relative w-full max-w-[440px] z-10">
         {/* Brand Card with Uploaded Logo */}
         <div className="text-center mb-6">
-          <div className="inline-flex p-1.5 bg-white rounded-2xl shadow-sm border border-[#E5E7EB] mb-3 group transition-transform duration-300 hover:scale-105">
+          <div className="inline-flex p-2 bg-white rounded-3xl shadow-lg shadow-blue-500/5 border border-blue-100 ring-8 ring-blue-50/70 mb-3 group transition-transform duration-300 hover:scale-105">
             <img
               src="/logo.jpg"
               alt="Logo EntreLinhas"
-              className="w-20 h-20 sm:w-24 sm:h-24 object-contain rounded-xl"
+              className="w-24 h-24 sm:w-28 sm:h-28 object-contain rounded-2xl"
             />
           </div>
           <h1 className="font-serif text-2xl sm:text-3xl font-bold text-[#1F2421] tracking-tight">

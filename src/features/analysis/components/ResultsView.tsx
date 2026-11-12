@@ -115,21 +115,17 @@ export function ResultsView({ mode, onBack, imageSrc }: ResultsViewProps) {
 
       {/* Loading Overlay State */}
       {isLoading ? (
-        <div className="bg-white rounded-2xl border border-[#E5E7EB] p-10 sm:p-16 flex flex-col items-center justify-center gap-4 text-center shadow-sm">
-          <div className="w-14 h-14 rounded-2xl bg-[#EFF6FF] border border-[#BFDBFE] flex items-center justify-center animate-pulse">
-            <span className="text-2xl animate-spin">⚙️</span>
+        <div className="bg-white rounded-3xl border border-[#E5E7EB] p-10 sm:p-16 flex flex-col items-center justify-center gap-4 text-center shadow-sm">
+          <div className="w-20 h-20 rounded-2xl bg-white border border-blue-100 shadow-md ring-8 ring-blue-50/80 p-2 flex items-center justify-center animate-pulse">
+            <img src="/logo.jpg" alt="EntreLinhas" className="w-full h-full object-contain rounded-xl" />
           </div>
           <div>
-            <h3 className="font-serif text-[18px] font-semibold text-[#1F2421]">
-              Processando via API EntreLinhas
+            <h3 className="font-serif text-[19px] sm:text-[21px] font-semibold text-[#1F2421]">
+              Processando via EntreLinhas
             </h3>
-            <p className="text-[13px] text-[#6B7280] mt-1 max-w-md">
+            <p className="text-[13px] text-[#6B7280] mt-1 max-w-md leading-relaxed">
               Extraindo texto da página, limpando ruídos e interpretando intenções e tema com Inteligência Artificial...
             </p>
-          </div>
-          <div className="flex items-center gap-2 mt-2 text-[11px] text-[#9CA3AF]">
-            <span className="w-2 h-2 rounded-full bg-[#1D4ED8] animate-ping" />
-            <span>Spring Boot · Tesseract · Llama 3</span>
           </div>
         </div>
       ) : (
@@ -140,9 +136,8 @@ export function ResultsView({ mode, onBack, imageSrc }: ResultsViewProps) {
               <button
                 key={t}
                 onClick={() => setTab(t)}
-                className={`flex-1 py-2 rounded-lg text-[12px] font-medium transition-all cursor-pointer ${
-                  tab === t ? "bg-white text-[#1F2421] shadow-sm font-semibold" : "text-[#6B7280]"
-                }`}
+                className={`flex-1 py-2 rounded-lg text-[12px] font-medium transition-all cursor-pointer ${tab === t ? "bg-white text-[#1F2421] shadow-sm font-semibold" : "text-[#6B7280]"
+                  }`}
               >
                 {t === "digitalizado" ? "Página Digitalizada" : "Interpretação & Análise"}
               </button>
@@ -163,17 +158,15 @@ export function ResultsView({ mode, onBack, imageSrc }: ResultsViewProps) {
                       <div className="flex bg-[#F3F2EE] p-0.5 rounded-lg text-[10px]">
                         <button
                           onClick={() => setViewMode("texto")}
-                          className={`px-2 py-0.5 rounded-md font-medium transition-colors cursor-pointer ${
-                            viewMode === "texto" ? "bg-white text-[#1F2421] shadow-xs font-semibold" : "text-[#6B7280]"
-                          }`}
+                          className={`px-2 py-0.5 rounded-md font-medium transition-colors cursor-pointer ${viewMode === "texto" ? "bg-white text-[#1F2421] shadow-xs font-semibold" : "text-[#6B7280]"
+                            }`}
                         >
                           Texto
                         </button>
                         <button
                           onClick={() => setViewMode("imagem")}
-                          className={`px-2 py-0.5 rounded-md font-medium transition-colors cursor-pointer ${
-                            viewMode === "imagem" ? "bg-white text-[#1F2421] shadow-xs font-semibold" : "text-[#6B7280]"
-                          }`}
+                          className={`px-2 py-0.5 rounded-md font-medium transition-colors cursor-pointer ${viewMode === "imagem" ? "bg-white text-[#1F2421] shadow-xs font-semibold" : "text-[#6B7280]"
+                            }`}
                         >
                           Imagem
                         </button>
@@ -189,11 +182,10 @@ export function ResultsView({ mode, onBack, imageSrc }: ResultsViewProps) {
                     </button>
                     <button
                       onClick={() => setIsEditing(!isEditing)}
-                      className={`text-[11px] font-medium px-2.5 py-1 rounded-full transition-colors cursor-pointer ${
-                        isEditing
+                      className={`text-[11px] font-medium px-2.5 py-1 rounded-full transition-colors cursor-pointer ${isEditing
                           ? "bg-[#1D4ED8] text-white"
                           : "text-[#6B7280] bg-[#F3F2EE] hover:bg-neutral-200"
-                      }`}
+                        }`}
                     >
                       {isEditing ? "Concluir" : "Editar"}
                     </button>
@@ -276,21 +268,17 @@ export function ResultsView({ mode, onBack, imageSrc }: ResultsViewProps) {
                   <p className="text-[11px] font-semibold text-[#9CA3AF] uppercase tracking-widest">
                     Intenção & Tonalidade Detectada
                   </p>
-                  <span className="text-[11px] font-bold text-[#059669] bg-[#ECFDF5] px-2.5 py-0.5 rounded-full">
-                    {analysis.confidenceScore}% confiança
-                  </span>
                 </div>
                 <div className="flex flex-wrap gap-2 mb-4">
                   {analysis.intents.map((intent, idx) => (
                     <span
                       key={intent}
-                      className={`px-3 py-1.5 rounded-full text-[12px] font-semibold border ${
-                        idx === 0
+                      className={`px-3 py-1.5 rounded-full text-[12px] font-semibold border ${idx === 0
                           ? "bg-[#FEF3E8] text-[#D97736] border-[#FDBA74]/40"
                           : idx === 1
-                          ? "bg-[#EFF6FF] text-[#1D4ED8] border-[#BFDBFE]/60"
-                          : "bg-[#ECFDF5] text-[#059669] border-[#A7F3D0]/60"
-                      }`}
+                            ? "bg-[#EFF6FF] text-[#1D4ED8] border-[#BFDBFE]/60"
+                            : "bg-[#ECFDF5] text-[#059669] border-[#A7F3D0]/60"
+                        }`}
                     >
                       {intent}
                     </span>
@@ -356,9 +344,8 @@ export function ResultsView({ mode, onBack, imageSrc }: ResultsViewProps) {
                       height="16"
                       viewBox="0 0 24 24"
                       fill="none"
-                      className={`flex-shrink-0 mt-1 transition-transform duration-200 ${
-                        expandedSection === item.title ? "rotate-180" : ""
-                      }`}
+                      className={`flex-shrink-0 mt-1 transition-transform duration-200 ${expandedSection === item.title ? "rotate-180" : ""
+                        }`}
                     >
                       <path d="M6 9l6 6 6-6" stroke="#9CA3AF" strokeWidth="2" strokeLinecap="round" />
                     </svg>
@@ -418,14 +405,12 @@ export function ResultsView({ mode, onBack, imageSrc }: ResultsViewProps) {
                     </div>
                     <button
                       onClick={() => setShowTranslation(!showTranslation)}
-                      className={`w-12 h-6 rounded-full transition-colors duration-200 relative cursor-pointer ${
-                        showTranslation ? "bg-[#1D4ED8]" : "bg-[#E5E7EB]"
-                      }`}
+                      className={`w-12 h-6 rounded-full transition-colors duration-200 relative cursor-pointer ${showTranslation ? "bg-[#1D4ED8]" : "bg-[#E5E7EB]"
+                        }`}
                     >
                       <div
-                        className={`absolute top-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform duration-200 ${
-                          showTranslation ? "translate-x-6" : "translate-x-0.5"
-                        }`}
+                        className={`absolute top-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform duration-200 ${showTranslation ? "translate-x-6" : "translate-x-0.5"
+                          }`}
                       />
                     </button>
                   </div>

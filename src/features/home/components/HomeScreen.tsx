@@ -98,17 +98,26 @@ export function HomeScreen({
 
   return (
     <div className="flex-1 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-8">
-      {/* Brand Greeting Banner */}
-      <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 bg-white border border-[#E5E7EB] rounded-2xl p-4 sm:p-5 shadow-xs">
-        <div className="flex items-center gap-3.5">
-          <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100 flex items-center justify-center p-1 flex-shrink-0 shadow-xs">
-            <img src="/logo.jpg" alt="EntreLinhas" className="w-full h-full object-contain rounded-lg" />
+      {/* Brand Greeting Hero Banner */}
+      <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-gradient-to-r from-white via-white to-blue-50/40 border border-[#E5E7EB] rounded-3xl p-5 sm:p-6 shadow-xs relative overflow-hidden">
+        {/* Decorative background watermark */}
+        <div className="absolute -right-8 -bottom-8 w-44 h-44 opacity-[0.04] pointer-events-none">
+          <img src="/logo.jpg" alt="" className="w-full h-full object-contain" />
+        </div>
+
+        <div className="flex items-center gap-4 sm:gap-6 z-10">
+          <div className="w-18 h-18 sm:w-22 sm:h-22 rounded-2xl bg-white border border-blue-100 shadow-md ring-4 ring-blue-50/80 flex items-center justify-center p-2 flex-shrink-0 transition-transform duration-300 hover:scale-105">
+            <img src="/logo.jpg" alt="EntreLinhas" className="w-full h-full object-contain rounded-xl" />
           </div>
           <div>
-            <h2 className="font-serif text-lg sm:text-xl font-bold text-[#1F2421]">
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-blue-50 border border-blue-200/70 text-[#1D4ED8] text-[11px] font-semibold mb-1">
+              <span>✦</span>
+              <span>Inteligência Contextual Literária</span>
+            </div>
+            <h2 className="font-serif text-xl sm:text-2xl font-bold text-[#1F2421] tracking-tight">
               {user && user.provider !== "guest" ? `Olá, ${user.name.split(" ")[0]}!` : "Bem-vindo ao EntreLinhas"}
             </h2>
-            <p className="text-xs sm:text-sm text-[#6B7280]">
+            <p className="text-xs sm:text-sm text-[#6B7280] mt-0.5 max-w-xl leading-relaxed">
               Mais que palavras, significados. Analise e interprete textos literários com inteligência contextual.
             </p>
           </div>

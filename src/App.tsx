@@ -50,8 +50,8 @@ function AppContent() {
   if (isLoading) {
     return (
       <div className="min-h-screen w-full bg-[#FBFBFA] flex flex-col items-center justify-center p-4">
-        <div className="w-16 h-16 rounded-2xl bg-white p-2 border border-gray-200 shadow-sm flex items-center justify-center mb-4">
-          <img src="/logo.jpg" alt="EntreLinhas" className="w-full h-full object-contain" />
+        <div className="w-24 h-24 rounded-3xl bg-white p-3 border border-blue-100 shadow-md ring-8 ring-blue-50/70 flex items-center justify-center mb-5 animate-pulse">
+          <img src="/logo.jpg" alt="EntreLinhas" className="w-full h-full object-contain rounded-2xl" />
         </div>
         <div className="w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
         <p className="text-xs text-gray-500 mt-3 font-medium">Carregando EntreLinhas...</p>

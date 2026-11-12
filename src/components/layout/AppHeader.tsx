@@ -47,26 +47,26 @@ export function AppHeader({ activeTab, onChangeTab, onOpenLogin }: AppHeaderProp
 
   return (
     <header className="sticky top-0 z-30 bg-[#FBFBFA]/95 backdrop-blur-md border-b border-[#F0EFE9] px-4 sm:px-6 lg:px-8">
-      <div className="max-w-6xl mx-auto flex items-center justify-between h-16">
+      <div className="max-w-6xl mx-auto flex items-center justify-between h-16 sm:h-18">
         {/* Brand with New Uploaded Logo */}
         <button
           onClick={() => onChangeTab("home")}
-          className="flex items-center gap-3 text-left group cursor-pointer focus:outline-none"
+          className="flex items-center gap-3.5 text-left group cursor-pointer focus:outline-none"
         >
-          <div className="w-10 h-10 rounded-xl bg-white p-0.5 border border-[#E5E7EB] shadow-xs flex items-center justify-center overflow-hidden group-hover:border-blue-300 transition-colors">
+          <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-white p-1 border border-blue-100 shadow-sm ring-2 ring-blue-50/80 flex items-center justify-center overflow-hidden group-hover:ring-blue-200 group-hover:scale-105 transition-all">
             <img
               src="/logo.jpg"
               alt="Logo EntreLinhas"
-              className="w-full h-full object-contain"
+              className="w-full h-full object-contain rounded-xl"
             />
           </div>
           <div>
             <div className="flex items-center gap-1.5">
-              <h1 className="font-serif text-[20px] font-bold text-[#1F2421] tracking-tight leading-none group-hover:text-[#1D4ED8] transition-colors">
+              <h1 className="font-serif text-[21px] sm:text-[23px] font-bold text-[#1F2421] tracking-tight leading-none group-hover:text-[#1D4ED8] transition-colors">
                 EntreLinhas
               </h1>
             </div>
-            <p className="text-[10px] text-[#6B7280] font-medium leading-tight mt-0.5 hidden xs:block">
+            <p className="text-[11px] text-[#6B7280] font-medium leading-tight mt-1 hidden xs:block">
               Mais que palavras, significados.
             </p>
           </div>

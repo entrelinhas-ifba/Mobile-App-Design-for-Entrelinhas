@@ -70,15 +70,26 @@ export function HistoryList({ onItemClick }: { onItemClick: (id: string) => void
   }
 
   return (
-    <div className="p-4">
+    <div className="flex-1 w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-8">
+      {/* Header with Logo */}
+      <div className="mb-6 flex items-center gap-3.5">
+        <div className="w-12 h-12 rounded-2xl bg-white border border-emerald-100 shadow-xs ring-2 ring-emerald-50/80 flex items-center justify-center p-1.5 flex-shrink-0">
+          <img src="/logo.jpg" alt="EntreLinhas" className="w-full h-full object-contain rounded-lg" />
+        </div>
+        <div>
+          <h2 className="font-serif text-[22px] sm:text-[26px] font-bold text-[#1F2421]">Histórico de Análises</h2>
+          <p className="text-[13px] text-[#6B7280] mt-0.5">Consulte e revisite todas as suas páginas e leituras escaneadas</p>
+        </div>
+      </div>
+
       {/* Barra de filtro */}
       <div className="flex gap-2 mb-4">
         {(["TODOS", "SIMPLES", "PROFUNDA"] as Filter[]).map((f) => (
           <button
             key={f}
             onClick={() => setFilter(f)}
-            className={`px-3 py-1 rounded-full text-sm border ${
-              filter === f ? "bg-blue-600 text-white border-blue-600" : "bg-white text-gray-700 border-gray-300"
+            className={`px-3 py-1.5 rounded-full text-xs sm:text-sm font-medium border transition-colors cursor-pointer ${
+              filter === f ? "bg-[#1D4ED8] text-white border-[#1D4ED8]" : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
             }`}
           >
             {f === "TODOS" ? "Todos" : f === "SIMPLES" ? "Simples" : "Profunda"}
@@ -87,11 +98,16 @@ export function HistoryList({ onItemClick }: { onItemClick: (id: string) => void
       </div>
 
       {filtered.length === 0 ? (
-        <div className="text-center text-gray-500 py-12">
-          <svg className="mx-auto mb-4 w-12 h-12 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17v-2a4 4 0 018 0v2m-9 4h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v12a2 2 0 002 2z" />
-          </svg>
-          <p className="text-sm">Nenhum registro encontrado.</p>
+        <div className="bg-white rounded-2xl border border-dashed border-[#BFDBFE] p-8 text-center flex flex-col items-center justify-center gap-3 my-6">
+          <div className="w-16 h-16 rounded-2xl bg-white border border-blue-100 shadow-sm p-1.5 flex items-center justify-center">
+            <img src="/logo.jpg" alt="EntreLinhas" className="w-full h-full object-contain rounded-xl opacity-60" />
+          </div>
+          <div>
+            <p className="text-[14px] font-semibold text-[#1F2421]">Nenhum registro encontrado</p>
+            <p className="text-[12px] text-[#6B7280] mt-1 max-w-sm">
+              Nenhuma análise corresponde aos filtros atuais. Realize uma leitura para vê-la listada aqui.
+            </p>
+          </div>
         </div>
       ) : (
         <div className="grid gap-3">

@@ -5,11 +5,16 @@ interface DeepAnalysisHubProps {
 export function DeepAnalysisHub({ onScan }: DeepAnalysisHubProps) {
   return (
     <div className="flex-1 w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-8">
-      <div className="mb-6">
-        <h2 className="font-serif text-[22px] sm:text-[26px] font-bold text-[#1F2421]">Análise Aprofundada</h2>
-        <p className="text-[13px] text-[#9CA3AF] mt-1">
-          Detecção semântica completa, contexto histórico, figuras de linguagem e tradução
-        </p>
+      <div className="mb-6 flex items-center gap-3.5">
+        <div className="w-12 h-12 rounded-2xl bg-white border border-orange-100 shadow-xs ring-2 ring-orange-50/80 flex items-center justify-center p-1.5 flex-shrink-0">
+          <img src="/logo.jpg" alt="EntreLinhas" className="w-full h-full object-contain rounded-lg" />
+        </div>
+        <div>
+          <h2 className="font-serif text-[22px] sm:text-[26px] font-bold text-[#1F2421]">Análise Aprofundada</h2>
+          <p className="text-[13px] text-[#6B7280] mt-0.5">
+            Detecção semântica completa, contexto histórico, figuras de linguagem e tradução
+          </p>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
